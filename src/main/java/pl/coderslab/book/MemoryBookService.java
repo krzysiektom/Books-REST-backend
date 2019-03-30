@@ -22,11 +22,23 @@ class MemoryBookService {
         return list;
     }
 
-    Book getBookById(long id) {
-        return list.stream().filter(b -> b.getId() == id).findAny().orElse(new Book());
+    void setList(List<Book> list) {
+        this.list = list;
     }
 
-    public void setList(List<Book> list) {
-        this.list = list;
+    Book getBookById(long id) {
+        return list.stream()
+                .filter(b -> b.getId() == id)
+                .findAny()
+                .orElse(new Book()); //TODO zamienić na wyjątek
+    }
+
+    Book addNewBook(Book book) {
+        list.add(book);
+        return book;
+    }
+
+    void deleteBook(long id) {
+        list.remove(getBookById(id));
     }
 }

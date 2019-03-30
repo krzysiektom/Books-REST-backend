@@ -1,9 +1,6 @@
 package pl.coderslab.book;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -11,9 +8,9 @@ import java.util.List;
 @RequestMapping("/books")
 class BookController {
 
-    MemoryBookService memoryBookService;
+    private MemoryBookService memoryBookService;
 
-    public BookController(MemoryBookService memoryBookService) {
+    BookController(MemoryBookService memoryBookService) {
         this.memoryBookService = memoryBookService;
     }
 
@@ -36,5 +33,21 @@ class BookController {
     @GetMapping("/{id}")
     Book bookById(@PathVariable long id) {
         return memoryBookService.getBookById(id);
+    }
+
+    @PostMapping("")
+    Book newBook(@RequestBody Book book) {
+        return memoryBookService.addNewBook(book);
+    }
+
+    @PostMapping("/{id}")
+    Book bookById(@PathVariable long id,
+                  @RequestBody Book book) {
+        return memoryBookService.getBookById(id); //TODO zmiania danych
+    }
+
+    @DeleteMapping("/{id}")
+    void deleteBook(@PathVariable long id) {
+        memoryBookService.deleteBook(id);
     }
 }
