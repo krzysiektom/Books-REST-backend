@@ -9,7 +9,7 @@ import java.util.List;
 @RequestMapping("/books")
 class BookController {
 
-    private MemoryBookService memoryBookService;
+    private MemoryBookService memoryBookService; //TODO zamienić na BookServise
 
     @Autowired
     BookController(MemoryBookService memoryBookService) {
@@ -45,7 +45,7 @@ class BookController {
     @PutMapping("/{id}")
     Book bookById(@PathVariable long id,
                   @RequestBody Book book) {
-        return memoryBookService.modifyBook(book, id); //TODO zmiania danych
+        return memoryBookService.modifyBook(book, id);
     }
 
     @DeleteMapping("/{id}")
