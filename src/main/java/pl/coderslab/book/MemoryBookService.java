@@ -38,6 +38,26 @@ class MemoryBookService {
         return book;
     }
 
+    Book modifyBook(Book book, Long id) {
+        Book originalBook = getBookById(book.getId());
+        if (!book.getAuthor().isEmpty()) {
+            originalBook.setAuthor(book.getAuthor());
+        }
+        if (!book.getIsbn().isEmpty()) {
+            originalBook.setIsbn(book.getIsbn());
+        }
+        if (!book.getPublisher().isEmpty()) {
+            originalBook.setPublisher(book.getPublisher());
+        }
+        if (!book.getTitle().isEmpty()) {
+            originalBook.setTitle(book.getTitle());
+        }
+        if (!book.getType().isEmpty()) {
+            originalBook.setType(book.getType());
+        }
+        return getBookById(book.getId());
+    }
+
     void deleteBook(long id) {
         list.remove(getBookById(id));
     }

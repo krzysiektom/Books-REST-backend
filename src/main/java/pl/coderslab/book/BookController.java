@@ -1,5 +1,6 @@
 package pl.coderslab.book;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -10,6 +11,7 @@ class BookController {
 
     private MemoryBookService memoryBookService;
 
+    @Autowired
     BookController(MemoryBookService memoryBookService) {
         this.memoryBookService = memoryBookService;
     }
@@ -40,10 +42,10 @@ class BookController {
         return memoryBookService.addNewBook(book);
     }
 
-    @PostMapping("/{id}")
+    @PutMapping("/{id}")
     Book bookById(@PathVariable long id,
                   @RequestBody Book book) {
-        return memoryBookService.getBookById(id); //TODO zmiania danych
+        return memoryBookService.modifyBook(book, id); //TODO zmiania danych
     }
 
     @DeleteMapping("/{id}")
