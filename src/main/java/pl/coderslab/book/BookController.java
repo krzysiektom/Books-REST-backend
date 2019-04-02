@@ -9,11 +9,11 @@ import java.util.List;
 @RequestMapping("/books")
 class BookController {
 
-    private MemoryBookService memoryBookService; //TODO zamienić na BookServise
+    private BookService bookService;
 
     @Autowired
-    BookController(MemoryBookService memoryBookService) {
-        this.memoryBookService = memoryBookService;
+    BookController(BookService bookService) {
+        this.bookService = bookService;
     }
 
     @RequestMapping("/hello")
@@ -29,27 +29,27 @@ class BookController {
 
     @GetMapping("")
     List<Book> books() {
-        return memoryBookService.getList();
+        return bookService.getList();
     }
 
     @GetMapping("/{id}")
     Book bookById(@PathVariable long id) {
-        return memoryBookService.getBookById(id);
+        return bookService.getBookById(id);
     }
 
     @PostMapping("")
     Book newBook(@RequestBody Book book) {
-        return memoryBookService.addNewBook(book);
+        return bookService.addNewBook(book);
     }
 
     @PutMapping("/{id}")
     Book bookById(@PathVariable long id,
                   @RequestBody Book book) {
-        return memoryBookService.modifyBook(book, id);
+        return bookService.modifyBook(book, id);
     }
 
     @DeleteMapping("/{id}")
     void deleteBook(@PathVariable long id) {
-        memoryBookService.deleteBook(id);
+        bookService.deleteBook(id);
     }
 }

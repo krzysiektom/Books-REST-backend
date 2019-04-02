@@ -33,7 +33,7 @@ class MemoryBookService implements BookService {
         return list.stream()
                 .filter(b -> b.getId() == id)
                 .findAny()
-                .orElse(new Book()); //TODO zamienić na wyjątek
+                .orElse(new Book()); //TODO zgłosić wyjątek
     }
 
     @Override
