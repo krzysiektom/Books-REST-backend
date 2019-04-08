@@ -27,7 +27,7 @@ class BookController {
                 "Bruce Eckel", "Helion", "programming");
     }
 
-    @GetMapping("")
+    @GetMapping("/")
     List<Book> books() {
         return bookService.getList();
     }
@@ -37,7 +37,7 @@ class BookController {
         return bookService.getBookById(id);
     }
 
-    @PostMapping("")
+    @PostMapping("/")
     Book newBook(@RequestBody Book book) {
         return bookService.addNewBook(book);
     }
