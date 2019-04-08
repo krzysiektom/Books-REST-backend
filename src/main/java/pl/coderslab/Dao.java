@@ -5,13 +5,11 @@ import java.util.Optional;
 
 public interface Dao<T> {
      
-    T get(long id);
+    T findById(long id);
      
-    List<T> getAll();
+    List<T> findAll();
      
     void save(T t);
      
-    void update(T t);
-     
-    void delete(T t);
+    void remove(long id);
 }

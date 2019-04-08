@@ -34,22 +34,22 @@ class BookController {
 
     @GetMapping("/{id}")
     Book bookById(@PathVariable long id) {
-        return bookService.getBookById(id);
+        return bookService.getById(id);
     }
 
     @PostMapping("/")
     Book newBook(@RequestBody Book book) {
-        return bookService.addNewBook(book);
+        return bookService.addNew(book);
     }
 
     @PutMapping("/{id}")
     Book bookById(@PathVariable long id,
                   @RequestBody Book book) {
-        return bookService.modifyBook(book, id);
+        return bookService.modify(book, id);
     }
 
     @DeleteMapping("/{id}")
     void deleteBook(@PathVariable long id) {
-        bookService.deleteBook(id);
+        bookService.delete(id);
     }
 }

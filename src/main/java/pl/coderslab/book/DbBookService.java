@@ -23,24 +23,19 @@ class DbBookService implements BookService {
     }
 
     @Override
-    public void setList(List<Book> list) {
-
-    }
-
-    @Override
-    public Book getBookById(long id) {
+    public Book getById(long id) {
         return bookDao.findById(id);
     }
 
     @Override
-    public Book addNewBook(Book book) {
+    public Book addNew(Book book) {
         bookDao.save(book);
         return book;
     }
 
     @Override
-    public Book modifyBook(Book book, Long id) {
-        Book originalBook = getBookById(id);
+    public Book modify(Book book, Long id) {
+        Book originalBook = getById(id);
         if (!book.getAuthor().isEmpty()) {
             originalBook.setAuthor(book.getAuthor());
         }
@@ -61,7 +56,7 @@ class DbBookService implements BookService {
     }
 
     @Override
-    public void deleteBook(long id) {
+    public void delete(long id) {
         bookDao.remove(id);
     }
 }

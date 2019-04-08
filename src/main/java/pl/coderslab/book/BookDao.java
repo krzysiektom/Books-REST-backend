@@ -1,13 +1,14 @@
 package pl.coderslab.book;
 
 import org.springframework.stereotype.Component;
+import pl.coderslab.Dao;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @Component
-class BookDao {
+class BookDao implements Dao<Book> {
     private static BookDao instance;
     private final String dbName = "warsztat04";
     private final String URL = "jdbc:mysql://localhost:3306/" + dbName + "?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&useSSL=false&characterEncoding=UTF-8";
@@ -29,7 +30,8 @@ class BookDao {
         return instance;
     }
 
-    void save(Book book) {
+    @Override
+    public void save(Book book) {
         try (Connection conn = DriverManager.getConnection(URL,
                 USER, PASSWORD)) {
             if (book.getId() == 0) {
@@ -57,7 +59,8 @@ class BookDao {
         }
     }
 
-    void remove(long id) {
+    @Override
+    public void remove(long id) {
         try (Connection conn = DriverManager.getConnection(URL,
                 USER, PASSWORD)) {
             PreparedStatement stmt = conn.prepareStatement(
@@ -70,7 +73,8 @@ class BookDao {
         }
     }
 
-    Book findById(Long id){
+    @Override
+    public Book findById(long id){
         Book b= new Book();
         try (Connection conn = DriverManager.getConnection(URL,
                 USER, PASSWORD)) {
@@ -92,7 +96,8 @@ class BookDao {
         return b;
     }
 
-    List<Book> findAll() {
+    @Override
+    public List<Book> findAll() {
         List<Book> list = new ArrayList<>();
         try (Connection conn = DriverManager.getConnection(URL,
                 USER, PASSWORD)) {

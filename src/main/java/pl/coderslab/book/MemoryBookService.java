@@ -23,13 +23,10 @@ class MemoryBookService implements BookService {
         return list;
     }
 
-    @Override
-    public void setList(List<Book> list) {
-        this.list = list;
-    }
+
 
     @Override
-    public Book getBookById(long id) {
+    public Book getById(long id) {
         return list.stream()
                 .filter(b -> b.getId() == id)
                 .findAny()
@@ -37,14 +34,14 @@ class MemoryBookService implements BookService {
     }
 
     @Override
-    public Book addNewBook(Book book) {
+    public Book addNew(Book book) {
         list.add(book);
         return book;
     }
 
     @Override
-    public Book modifyBook(Book book, Long id) {
-        Book originalBook = getBookById(id);
+    public Book modify(Book book, Long id) {
+        Book originalBook = getById(id);
         if (!book.getAuthor().isEmpty()) {
             originalBook.setAuthor(book.getAuthor());
         }
@@ -60,11 +57,11 @@ class MemoryBookService implements BookService {
         if (!book.getType().isEmpty()) {
             originalBook.setType(book.getType());
         }
-        return getBookById(book.getId());
+        return getById(book.getId());
     }
 
     @Override
-    public void deleteBook(long id) {
-        list.remove(getBookById(id));
+    public void delete(long id) {
+        list.remove(getById(id));
     }
 }
