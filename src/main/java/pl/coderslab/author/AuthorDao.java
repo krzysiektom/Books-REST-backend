@@ -1,7 +1,10 @@
 package pl.coderslab.author;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import pl.coderslab.Dao;
+import pl.coderslab.book.Book;
+import pl.coderslab.book.BookService;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -15,6 +18,13 @@ class AuthorDao implements Dao<Author> {
     private final String USER = "root";
     private final String PASSWORD = "coderslab";
 
+    private BookService bookService;
+
+    @Autowired
+    public AuthorDao(BookService bookService) {
+        this.bookService = bookService;
+    }
+
     private AuthorDao() {
         try {
             Class.forName("com.mysql.jdbc.Driver");
@@ -22,6 +32,7 @@ class AuthorDao implements Dao<Author> {
             e.printStackTrace();
         }
     }
+
 
     static AuthorDao getInstance() {
         if (instance == null) {
@@ -43,6 +54,16 @@ class AuthorDao implements Dao<Author> {
                 String firstName = resultSet.getString("firstName");
                 String lastName = resultSet.getString("lastName");
                 author = new Author(id, firstName, lastName);
+                statement = connection.prepareStatement(
+                        "SELECT * FROM warsztat04.book_authors where author_id=?");
+                statement.setLong(1, author.getId());
+                resultSet = statement.executeQuery();
+                List<Book> books = new ArrayList<>();
+                while (resultSet.next()) {
+                    long bookId = resultSet.getLong("book_id");
+                    books.add(bookService.getById(bookId));
+                }
+                author.setBooks(books);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -82,15 +103,14 @@ class AuthorDao implements Dao<Author> {
             } else {
                 PreparedStatement statement = connection.prepareStatement(
                         "UPDATE warsztat04.authors SET firstName=?,lastName=? WHERE id=?");
-                statement.setString(1,author.getFirstName());
-                statement.setString(2,author.getLastName());
-                statement.setLong(3,author.getId());
+                statement.setString(1, author.getFirstName());
+                statement.setString(2, author.getLastName());
+                statement.setLong(3, author.getId());
                 statement.executeLargeUpdate();
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
     }
 
     @Override
@@ -103,6 +123,5 @@ class AuthorDao implements Dao<Author> {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
     }
 }

@@ -1,9 +1,15 @@
 package pl.coderslab.author;
 
-class Author {
+import pl.coderslab.book.Book;
+
+import java.util.List;
+
+public class Author {
     private long id;
     private String firstName;
     private String lastName;
+    private List<Book> books;
+
 
     public Author() {
     }
@@ -32,5 +38,13 @@ class Author {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public List<Book> getBooks() {
+        return books;
+    }
+
+    public void setBooks(List<Book> books) {
+        this.books = books;
     }
 }
