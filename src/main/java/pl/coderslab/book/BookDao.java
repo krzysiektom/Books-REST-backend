@@ -2,6 +2,7 @@ package pl.coderslab.book;
 
 import org.springframework.stereotype.Component;
 import pl.coderslab.Dao;
+import pl.coderslab.author.Author;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -36,22 +37,20 @@ class BookDao implements Dao<Book> {
                 USER, PASSWORD)) {
             if (book.getId() == 0) {
                 PreparedStatement stmt = conn.prepareStatement(
-                        "INSERT INTO books(isbn, title, author, publisher, type) VALUES(?,?,?,?,?)");
+                        "INSERT INTO books(isbn, title, publisher, type) VALUES(?,?,?,?)");
                 stmt.setString(1, book.getIsbn());
                 stmt.setString(2, book.getTitle());
-                stmt.setString(3, book.getAuthor());
-                stmt.setString(4, book.getPublisher());
-                stmt.setString(5, book.getType());
+                stmt.setString(3, book.getPublisher());
+                stmt.setString(4, book.getType());
                 stmt.executeUpdate();
             } else {
                 PreparedStatement stmt = conn.prepareStatement(
-                        "UPDATE books SET isbn=?, title=?, author=?, publisher=?, type=? where id = ?");
+                        "UPDATE books SET isbn=?, title=?, publisher=?, type=? where id = ?");
                 stmt.setString(1, book.getIsbn());
                 stmt.setString(2, book.getTitle());
-                stmt.setString(3, book.getAuthor());
-                stmt.setString(4, book.getPublisher());
-                stmt.setString(5, book.getType());
-                stmt.setLong(6, book.getId());
+                stmt.setString(3, book.getPublisher());
+                stmt.setString(4, book.getType());
+                stmt.setLong(5, book.getId());
                 stmt.executeUpdate();
             }
         } catch (SQLException e) {
@@ -74,8 +73,8 @@ class BookDao implements Dao<Book> {
     }
 
     @Override
-    public Book findById(long id){
-        Book b= new Book();
+    public Book findById(long id) {
+        Book book = new Book();
         try (Connection conn = DriverManager.getConnection(URL,
                 USER, PASSWORD)) {
             PreparedStatement stmt = conn.prepareStatement(
@@ -85,15 +84,26 @@ class BookDao implements Dao<Book> {
             if (rs.next()) {
                 String isbn = rs.getString("isbn");
                 String title = rs.getString("title");
-                String author = rs.getString("author");
                 String publisher = rs.getString("publisher");
                 String type = rs.getString("type");
-                b = new Book(id, isbn, title, author, publisher, type);
+                book = new Book(id, isbn, title, publisher, type);
+                List<Author> authors = new ArrayList<>();
+                stmt = conn.prepareStatement(
+                        "SELECT * FROM warsztat04.authors WHERE id IN(SELECT warsztat04.book_authors.author_id FROM warsztat04.book_authors WHERE book_id=?)");
+                stmt.setLong(1,id);
+                rs = stmt.executeQuery();
+                while (rs.next()){
+                    long idAuthor = rs.getLong("id");
+                    String firstName = rs.getString("firstName");
+                    String lastName = rs.getString("lastName");
+                    authors.add(new Author(idAuthor, firstName, lastName));
+                }
+                book.setAuthors(authors);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return b;
+        return book;
     }
 
     @Override
@@ -108,11 +118,10 @@ class BookDao implements Dao<Book> {
                 long id = rs.getLong("id");
                 String isbn = rs.getString("isbn");
                 String title = rs.getString("title");
-                String author = rs.getString("author");
                 String publisher = rs.getString("publisher");
                 String type = rs.getString("type");
-                Book b = new Book(id, isbn, title, author, publisher, type);
-                list.add(b);
+                Book book = new Book(id, isbn, title, publisher, type);
+                list.add(book);
             }
         } catch (SQLException e) {
             e.printStackTrace();

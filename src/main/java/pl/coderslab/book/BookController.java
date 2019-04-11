@@ -24,7 +24,7 @@ class BookController {
     @RequestMapping("/helloBook")
     Book helloBook() {
         return new Book(1L, "9788324631766", "Thinking in Java",
-                "Bruce Eckel", "Helion", "programming");
+                 "Helion", "programming");
     }
 
     @GetMapping("/")

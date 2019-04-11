@@ -18,13 +18,6 @@ class AuthorDao implements Dao<Author> {
     private final String USER = "root";
     private final String PASSWORD = "coderslab";
 
-    private BookService bookService;
-
-    @Autowired
-    public AuthorDao(BookService bookService) {
-        this.bookService = bookService;
-    }
-
     private AuthorDao() {
         try {
             Class.forName("com.mysql.jdbc.Driver");
@@ -55,13 +48,17 @@ class AuthorDao implements Dao<Author> {
                 String lastName = resultSet.getString("lastName");
                 author = new Author(id, firstName, lastName);
                 statement = connection.prepareStatement(
-                        "SELECT * FROM warsztat04.book_authors where author_id=?");
+                        "SELECT * FROM warsztat04.books WHERE id in(SELECT warsztat04.book_authors.book_id FROM warsztat04.book_authors WHERE author_id=?)");
                 statement.setLong(1, author.getId());
                 resultSet = statement.executeQuery();
                 List<Book> books = new ArrayList<>();
                 while (resultSet.next()) {
-                    long bookId = resultSet.getLong("book_id");
-                    books.add(bookService.getById(bookId));
+                    long idBook = resultSet.getLong("id");
+                    String isbn = resultSet.getString("isbn");
+                    String title = resultSet.getString("title");
+                    String publisher = resultSet.getString("publisher");
+                    String type = resultSet.getString("type");
+                    books.add(new Book(idBook, isbn, title, publisher, type));
                 }
                 author.setBooks(books);
             }

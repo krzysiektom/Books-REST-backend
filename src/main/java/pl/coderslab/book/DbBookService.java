@@ -36,9 +36,7 @@ class DbBookService implements BookService {
     @Override
     public Book modify(Book book, Long id) {
         Book originalBook = getById(id);
-        if (!book.getAuthor().isEmpty()) {
-            originalBook.setAuthor(book.getAuthor());
-        }
+
         if (!book.getIsbn().isEmpty()) {
             originalBook.setIsbn(book.getIsbn());
         }

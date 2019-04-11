@@ -10,12 +10,12 @@ class MemoryBookService implements BookService {
     private List<Book> list = new ArrayList<>();
 
     MemoryBookService() {
-        list.add(new Book(1L, "9788324631766", "Thinking in Java", "Bruce Eckel",
+        list.add(new Book(1L, "9788324631766", "Thinking in Java",
                 "Helion", "programming"));
         list.add(new Book(2L, "9788324627738", "Rusz glowa, Java.",
-                "Sierra Kathy, Bates Bert", "Helion", "programming"));
+                 "Helion", "programming"));
         list.add(new Book(3L, "9780130819338", "Java 2. Podstawy",
-                "Cay Horstmann, Gary Cornell", "Helion", "programming"));
+                "Helion", "programming"));
     }
 
     @Override
@@ -42,9 +42,6 @@ class MemoryBookService implements BookService {
     @Override
     public Book modify(Book book, Long id) {
         Book originalBook = getById(id);
-        if (!book.getAuthor().isEmpty()) {
-            originalBook.setAuthor(book.getAuthor());
-        }
         if (!book.getIsbn().isEmpty()) {
             originalBook.setIsbn(book.getIsbn());
         }

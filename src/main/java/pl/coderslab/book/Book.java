@@ -1,6 +1,5 @@
 package pl.coderslab.book;
 
-import org.springframework.context.annotation.Primary;
 import pl.coderslab.author.Author;
 
 import java.util.List;
@@ -16,7 +15,7 @@ public class Book {
     Book() {
     }
 
-    Book(long id, String isbn, String title, String publisher, String type) {
+    public Book(long id, String isbn, String title, String publisher, String type) {
         this.id = id;
         this.isbn = isbn;
         this.title = title;
