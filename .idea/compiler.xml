@@ -9,5 +9,8 @@
         <module name="Warsztaty_04" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="Warsztaty_04" target="1.8" />
+    </bytecodeTargetLevel>
   </component>
 </project>
