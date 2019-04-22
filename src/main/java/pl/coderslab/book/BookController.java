@@ -1,6 +1,8 @@
 package pl.coderslab.book;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -49,7 +51,13 @@ class BookController {
     }
 
     @DeleteMapping("/{id}")
-    void deleteBook(@PathVariable long id) {
+    ResponseEntity<Book> deleteBook(@PathVariable long id) {
+        Book book = bookService.getById(id);
+        if(book==null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
         bookService.delete(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

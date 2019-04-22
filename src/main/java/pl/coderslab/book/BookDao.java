@@ -31,8 +31,7 @@ class BookDao {
     }
 
     public void save(Book book) {
-        try (Connection conn = DriverManager.getConnection(URL,
-                USER, PASSWORD)) {
+        try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD)) {
             if (book.getId() == 0) {
                 PreparedStatement stmt = conn.prepareStatement(
                         "INSERT INTO books(isbn, title, publisher, type) VALUES(?,?,?,?)");
@@ -85,10 +84,10 @@ class BookDao {
                 book = new Book(id, isbn, title, publisher, type);
                 List<Author> authors = new ArrayList<>();
                 stmt = conn.prepareStatement(
-                        "SELECT * FROM warsztat04.authors WHERE id IN(SELECT warsztat04.book_authors.author_id FROM warsztat04.book_authors WHERE book_id=?)");
-                stmt.setLong(1,id);
+                        "SELECT * FROM authors WHERE id IN(SELECT book_authors.author_id FROM book_authors WHERE book_id=?)");
+                stmt.setLong(1, id);
                 rs = stmt.executeQuery();
-                while (rs.next()){
+                while (rs.next()) {
                     long idAuthor = rs.getLong("id");
                     String firstName = rs.getString("firstName");
                     String lastName = rs.getString("lastName");

@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-class AuthorDao{
+class AuthorDao {
     private static AuthorDao instance;
     private final String dbName = "warsztat04";
     private final String URL = "jdbc:mysql://localhost:3306/" + dbName + "?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&useSSL=false&characterEncoding=UTF-8";
@@ -23,7 +23,6 @@ class AuthorDao{
         }
     }
 
-
     static AuthorDao getInstance() {
         if (instance == null) {
             instance = new AuthorDao();
@@ -35,7 +34,7 @@ class AuthorDao{
         Author author = new Author();
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD)) {
             PreparedStatement statement = connection.prepareStatement(
-                    "SELECT * FROM warsztat04.authors WHERE id=?");
+                    "SELECT * FROM authors WHERE id=?");
             statement.setLong(1, id);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
@@ -43,7 +42,7 @@ class AuthorDao{
                 String lastName = resultSet.getString("lastName");
                 author = new Author(id, firstName, lastName);
                 statement = connection.prepareStatement(
-                        "SELECT * FROM warsztat04.books WHERE id in(SELECT warsztat04.book_authors.book_id FROM warsztat04.book_authors WHERE author_id=?)");
+                        "SELECT * FROM books WHERE id in(SELECT book_authors.book_id FROM book_authors WHERE author_id=?)");
                 statement.setLong(1, author.getId());
                 resultSet = statement.executeQuery();
                 List<Book> books = new ArrayList<>();
@@ -67,7 +66,7 @@ class AuthorDao{
         List<Author> authors = new ArrayList<>();
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD)) {
             PreparedStatement statement = connection.prepareStatement(
-                    "SELECT * FROM warsztat04.authors");
+                    "SELECT * FROM authors");
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 long id = resultSet.getLong("id");
@@ -86,17 +85,17 @@ class AuthorDao{
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD)) {
             if (author.getId() == 0) {
                 PreparedStatement statement = connection.prepareStatement(
-                        "INSERT INTO warsztat04.authors(firstName, lastName) VALUES (?,?)");
+                        "INSERT INTO authors (firstName, lastName) VALUES (?,?)");
                 statement.setString(1, author.getFirstName());
                 statement.setString(2, author.getLastName());
-                statement.executeLargeUpdate();
+                statement.executeUpdate();
             } else {
                 PreparedStatement statement = connection.prepareStatement(
-                        "UPDATE warsztat04.authors SET firstName=?,lastName=? WHERE id=?");
+                        "UPDATE authors SET firstName=?,lastName=? WHERE id=?");
                 statement.setString(1, author.getFirstName());
                 statement.setString(2, author.getLastName());
                 statement.setLong(3, author.getId());
-                statement.executeLargeUpdate();
+                statement.executeUpdate();
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -106,9 +105,9 @@ class AuthorDao{
     public void remove(long id) {
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD)) {
             PreparedStatement statement = connection.prepareStatement(
-                    "DELETE FROM warsztat04.authors WHERE id=?");
+                    "DELETE FROM authors WHERE id=?");
             statement.setLong(1, id);
-            statement.executeLargeUpdate();
+            statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }

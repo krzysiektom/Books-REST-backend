@@ -27,3 +27,5 @@ target/generated-sources/
 /.gitignore
 /.idea/
 .idea
+target/Warsztaty_04-1.0-SNAPSHOT/WEB-INF/classes/META-INF/
+target/classes/META-INF/
