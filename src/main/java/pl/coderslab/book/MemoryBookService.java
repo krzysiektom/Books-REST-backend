@@ -23,8 +23,6 @@ class MemoryBookService implements BookService {
         return list;
     }
 
-
-
     @Override
     public Book getById(long id) {
         return list.stream()
