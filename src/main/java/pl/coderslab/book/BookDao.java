@@ -1,7 +1,6 @@
 package pl.coderslab.book;
 
 import org.springframework.stereotype.Component;
-import pl.coderslab.Dao;
 import pl.coderslab.author.Author;
 
 import java.sql.*;
@@ -9,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-class BookDao implements Dao<Book> {
+class BookDao {
     private static BookDao instance;
     private final String dbName = "warsztat04";
     private final String URL = "jdbc:mysql://localhost:3306/" + dbName + "?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&useSSL=false&characterEncoding=UTF-8";
@@ -31,7 +30,6 @@ class BookDao implements Dao<Book> {
         return instance;
     }
 
-    @Override
     public void save(Book book) {
         try (Connection conn = DriverManager.getConnection(URL,
                 USER, PASSWORD)) {
@@ -58,7 +56,6 @@ class BookDao implements Dao<Book> {
         }
     }
 
-    @Override
     public void remove(long id) {
         try (Connection conn = DriverManager.getConnection(URL,
                 USER, PASSWORD)) {
@@ -72,7 +69,6 @@ class BookDao implements Dao<Book> {
         }
     }
 
-    @Override
     public Book findById(long id) {
         Book book = new Book();
         try (Connection conn = DriverManager.getConnection(URL,
@@ -106,7 +102,6 @@ class BookDao implements Dao<Book> {
         return book;
     }
 
-    @Override
     public List<Book> findAll() {
         List<Book> list = new ArrayList<>();
         try (Connection conn = DriverManager.getConnection(URL,

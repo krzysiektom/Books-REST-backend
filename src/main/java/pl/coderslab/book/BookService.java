@@ -1,10 +1,8 @@
 package pl.coderslab.book;
 
-import pl.coderslab.Service;
-
 import java.util.List;
 
-public interface BookService extends Service<Book> {
+public interface BookService {
     List<Book> getList();
 
     Book getById(long id);

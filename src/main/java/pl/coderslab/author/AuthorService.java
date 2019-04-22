@@ -1,10 +1,8 @@
 package pl.coderslab.author;
 
-import pl.coderslab.Service;
-
 import java.util.List;
 
-public interface AuthorService extends Service<Author> {
+public interface AuthorService{
     List<Author> getList();
 
     Author getById(long id);

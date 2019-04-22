@@ -1,17 +1,14 @@
 package pl.coderslab.author;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import pl.coderslab.Dao;
 import pl.coderslab.book.Book;
-import pl.coderslab.book.BookService;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @Component
-class AuthorDao implements Dao<Author> {
+class AuthorDao{
     private static AuthorDao instance;
     private final String dbName = "warsztat04";
     private final String URL = "jdbc:mysql://localhost:3306/" + dbName + "?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&useSSL=false&characterEncoding=UTF-8";
@@ -34,8 +31,6 @@ class AuthorDao implements Dao<Author> {
         return instance;
     }
 
-
-    @Override
     public Author findById(long id) {
         Author author = new Author();
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD)) {
@@ -68,7 +63,6 @@ class AuthorDao implements Dao<Author> {
         return author;
     }
 
-    @Override
     public List<Author> findAll() {
         List<Author> authors = new ArrayList<>();
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD)) {
@@ -88,7 +82,6 @@ class AuthorDao implements Dao<Author> {
         return authors;
     }
 
-    @Override
     public void save(Author author) {
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD)) {
             if (author.getId() == 0) {
@@ -110,7 +103,6 @@ class AuthorDao implements Dao<Author> {
         }
     }
 
-    @Override
     public void remove(long id) {
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD)) {
             PreparedStatement statement = connection.prepareStatement(
