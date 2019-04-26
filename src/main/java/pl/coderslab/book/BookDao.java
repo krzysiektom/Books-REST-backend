@@ -33,13 +33,27 @@ class BookDao {
     public void save(Book book) {
         try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD)) {
             if (book.getId() == 0) {
+                String[] generatedColumns = {"id"};
                 PreparedStatement stmt = conn.prepareStatement(
-                        "INSERT INTO books(isbn, title, publisher, type) VALUES(?,?,?,?)");
+                        "INSERT INTO books(isbn, title, publisher, type) VALUES(?,?,?,?)", generatedColumns);
                 stmt.setString(1, book.getIsbn());
                 stmt.setString(2, book.getTitle());
                 stmt.setString(3, book.getPublisher());
                 stmt.setString(4, book.getType());
                 stmt.executeUpdate();
+                ResultSet rs = stmt.getGeneratedKeys();
+                if (rs.next()) {
+                    book.setId(rs.getLong(1));
+                }
+                System.out.println(book.getId());
+                for (Author author : book.getAuthors()) {
+                    System.out.println(author.getId());
+                    PreparedStatement preparedStatement = conn.prepareStatement(
+                            "INSERT INTO warsztat04.book_authors(book_id, author_id) VALUES (?,?)");
+                    preparedStatement.setLong(1, book.getId());
+                    preparedStatement.setLong(2, author.getId());
+                    preparedStatement.executeUpdate();
+                }
             } else {
                 PreparedStatement stmt = conn.prepareStatement(
                         "UPDATE books SET isbn=?, title=?, publisher=?, type=? where id = ?");

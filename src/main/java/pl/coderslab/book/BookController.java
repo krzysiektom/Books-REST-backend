@@ -41,6 +41,7 @@ class BookController {
 
     @PostMapping("/")
     Book newBook(@RequestBody Book book) {
+        System.out.println(book);
         return bookService.addNew(book);
     }
 

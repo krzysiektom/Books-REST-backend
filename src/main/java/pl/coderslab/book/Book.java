@@ -27,6 +27,10 @@ public class Book {
         return id;
     }
 
+    public void setId(long id) {
+        this.id = id;
+    }
+
     public String getIsbn() {
         return isbn;
     }
@@ -65,5 +69,17 @@ public class Book {
 
     public void setAuthors(List<Author> authors) {
         this.authors = authors;
+    }
+
+    @Override
+    public String toString() {
+        return "Book{" +
+                "id=" + id +
+                ", isbn='" + isbn + '\'' +
+                ", title='" + title + '\'' +
+                ", publisher='" + publisher + '\'' +
+                ", type='" + type + '\'' +
+                ", authors=" + authors +
+                '}';
     }
 }
