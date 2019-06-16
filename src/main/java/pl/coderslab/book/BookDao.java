@@ -45,11 +45,9 @@ class BookDao {
                 if (rs.next()) {
                     book.setId(rs.getLong(1));
                 }
-                System.out.println(book.getId());
                 for (Author author : book.getAuthors()) {
-                    System.out.println(author.getId());
                     PreparedStatement preparedStatement = conn.prepareStatement(
-                            "INSERT INTO warsztat04.book_authors(book_id, author_id) VALUES (?,?)");
+                            "INSERT INTO book_authors(book_id, author_id) VALUES (?,?)");
                     preparedStatement.setLong(1, book.getId());
                     preparedStatement.setLong(2, author.getId());
                     preparedStatement.executeUpdate();

@@ -1,0 +1,9 @@
+out/
+target/Warsztaty_04-1.0-SNAPSHOT/META-INF/
+target/generated-sources/
+
+/.idea/
+target/Warsztaty_04-1.0-SNAPSHOT/WEB-INF/classes/META-INF/
+target/Warsztaty_04-1.0-SNAPSHOT/WEB-INF/classes/pl/
+target/Warsztaty_04-1.0-SNAPSHOT/WEB-INF/lib/
+target/classes/
